@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import { SectionDoodle } from '../components/section-doodle';
 import { BookingCTA, DrawRule, Reveal, softEase } from '../components/site-motion';
+import { SwellMascot } from '../components/swell-mascot';
 
 function InkRays({ className = '' }: { className?: string }) {
   return <svg className={`ink-rays ${className}`} viewBox="0 0 50 60" fill="none" aria-hidden="true"><path d="M10 19 22 4M18 31l22-5M17 44l16 10" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" /></svg>;
@@ -47,7 +48,6 @@ export default function SwellHome() {
         <a className="wordmark" href="#top" onClick={event => anchor(event, 'top')} aria-label="Swell Apps home"><strong>Swell</strong><span>Apps</span></a>
         <nav className="site-nav" aria-label="Main navigation">
           <a className="nav-link" href="#about" onClick={event => anchor(event, 'about')}>About</a>
-          <a className="nav-link" href="#work" onClick={event => anchor(event, 'work')}>Work with us</a>
           <BookingCTA className="header-book" />
         </nav>
       </div>
@@ -64,7 +64,7 @@ export default function SwellHome() {
           <motion.div className="hero-action" {...entrance(.4)}><BookingCTA /><InkRays className="button-rays" /></motion.div>
         </div>
         <motion.div className="hero-art" initial={reduced ? false : { opacity: 0, y: 15, scale: .98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: .65, delay: .2, ease: softEase }}>
-          <img className="founder-art" src="/images/founder.png" alt="Hand-drawn Max in a backwards cap, coffee in hand, building at his laptop." width="760" height="564" fetchPriority="high" />
+          <SwellMascot />
         </motion.div>
       </section>
       <section className="practice-strip" aria-label="Build, operate, advise">
