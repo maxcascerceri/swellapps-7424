@@ -4,7 +4,6 @@
   "buildCommand": "bun run --cwd packages/web build",
   "outputDirectory": "packages/web/dist",
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
