@@ -1,16 +1,7 @@
-const handler = async (request: Request) => {
-  const rawUrl = request instanceof Request ? request.url : "";
-  return Response.json({
-    ok: true,
-    url: rawUrl,
-    kind: request instanceof Request ? "request" : typeof request,
-  });
+type NodeResponse = {
+  status: (code: number) => { json: (body: unknown) => void; end: (body: string) => void };
 };
 
-export const GET = handler;
-export const POST = handler;
-export const PUT = handler;
-export const PATCH = handler;
-export const DELETE = handler;
-export const OPTIONS = handler;
-export const HEAD = handler;
+export default function handler(req: { url?: string; method?: string }, res: NodeResponse) {
+  res.status(200).json({ ok: true, url: req.url ?? "", method: req.method ?? "" });
+}
