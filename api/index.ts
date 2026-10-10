@@ -1,3 +1,13 @@
+let app: { fetch: (request: Request) => Response | Promise<Response> } | null = null;
+let loadError = "";
+
+try {
+  const loaded = await import("../packages/web/src/api/index");
+  app = loaded.default;
+} catch (error) {
+  loadError = error instanceof Error ? `${error.name}: ${error.message}` : "unknown";
+}
+
 const PATH_HEADERS = [
   "x-forwarded-uri",
   "x-forwarded-url",
@@ -22,19 +32,11 @@ function forwardedPath(request: Request) {
   return new Request(target, request);
 }
 
-const handler = async (request: Request) => {
-  const url = new URL(request.url);
-  if (url.searchParams.has("probe")) {
-    return Response.json({
-      url: request.url,
-      headers: Object.fromEntries(
-        PATH_HEADERS.map((name) => [name, request.headers.get(name)]),
-      ),
-    });
+const handler = (request: Request) => {
+  if (loadError || !app) {
+    return Response.json({ error: loadError || "The API did not load." }, { status: 500 });
   }
-
   try {
-    const { default: app } = await import("../packages/web/src/api/index");
     return app.fetch(forwardedPath(request));
   } catch (error) {
     const message = error instanceof Error ? `${error.name}: ${error.message}` : "unknown";
