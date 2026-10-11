@@ -43,14 +43,6 @@ h1 { margin: 0; font-weight: 400; }
 .mascot { position: relative; line-height: 0; pointer-events: none; }
 .mascot-base { width: 100%; height: auto; display: block; }
 .mascot-layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; pointer-events: none; user-select: none; }
-.mascot-bulb-hit { position: absolute; z-index: 1; left: 76.3%; top: 5.2%; width: 13%; height: 22%; pointer-events: none; }
-.mascot-bulb-glow, .mascot-bulb-fill { position: absolute; pointer-events: none; opacity: 0; transition: opacity .3s cubic-bezier(.2,0,0,1), scale .3s cubic-bezier(.2,0,0,1), filter .3s cubic-bezier(.2,0,0,1); }
-.mascot-bulb-glow { left: 14%; top: 15%; width: 68%; aspect-ratio: 1; border-radius: 50%; background: rgb(247 196 61 / .48); filter: blur(12px); scale: .25; }
-.mascot-bulb-fill { left: 26%; top: 24%; width: 43%; height: 47%; background: #f4c441; clip-path: polygon(50% 0,76% 8%,95% 29%,100% 53%,89% 72%,68% 86%,61% 100%,39% 100%,32% 86%,11% 72%,0 53%,5% 29%,24% 8%); filter: blur(4px); mix-blend-mode: multiply; rotate: -7deg; scale: .25; transform-origin: center; }
-@media (hover: hover) and (pointer: fine) {
-  .mascot-bulb-hit { pointer-events: auto; }
-  .mascot-bulb-hit:hover .mascot-bulb-glow, .mascot-bulb-hit:hover .mascot-bulb-fill { opacity: 1; filter: blur(0); scale: 1; }
-}
 .mascot-steam { animation: mascot-steam var(--steam-duration, 5.4s) linear infinite; animation-delay: var(--steam-delay, 0s); }
 .mascot-eye { width: 100%; height: 100%; display: block; object-fit: fill; animation: mascot-blink 4.6s linear infinite; }
 .mascot-eye-left { transform-origin: 52.73% 32.67%; }
@@ -85,7 +77,6 @@ h1 { margin: 0; font-weight: 400; }
   .hero-description { font-size: 19px; letter-spacing: -.4px; margin: 24px 0; line-height: 1.4; }
   .hero-action .book-button { min-width: 177px; min-height: 46px; font-size: 14px; padding: 12px 26px; }.button-rays { width: 32px; right: -44px; top: -7px; }
   .hero-art { width: calc(100% + 22px); max-width: 560px; align-self: center; top: -14px; margin: 16px -11px -14px; }
-  .mascot-bulb-hit { pointer-events: none; }
   .values-bar { min-height: 112px; padding-bottom: 29px; }.values-inner { gap: 10px; width: calc(100% - 40px); }.value { flex-direction: column; gap: 8px; font-size: 10px; letter-spacing: -.1px; }.value svg { width: 25px; height: 25px; }.value .zap-icon { height: 25px; }.value-divider { height: 29px; background: #b3b1ab; }
   .dialog-content { padding: 54px 25px 31px; }.dialog-content h2 { font-size: 41px; }.dialog-content h2 span { font-size: 28px; }
 }
