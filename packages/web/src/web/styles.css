@@ -176,13 +176,13 @@ h1 { margin: 0; font-weight: 400; }
 .step-progress { display: grid; grid-template-columns: repeat(6,1fr); gap: 7px; margin-bottom: 39px; }
 .step-progress span { height: 3px; background: #dfdcd3; transition: background .25s var(--ease); }
 .step-progress .filled { background: var(--orange); }
-.step-form h2 { font-family: 'Bodoni Moda', serif; font-size: clamp(35px,3.1vw,46px); line-height: 1.15; letter-spacing: -1.8px; font-weight: 400; margin: 0; }
+.step-form h2 { font-family: 'Bodoni Moda', serif; font-size: clamp(35px,3.1vw,46px); line-height: 1.15; letter-spacing: -1.8px; font-weight: 400; margin: 0 0 28px; }
 .step-form h2:focus, .enquiry-success h2:focus { outline: none; }
-.question-note { font-size: 17px; color: #6c6a62; margin: 17px 0 29px; line-height: 1.6; }
 .short-answer textarea { width: 100%; resize: vertical; border: 0; border-bottom: 1.5px solid #aeaa9f; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 25px; letter-spacing: -.6px; line-height: 1.5; min-height: 138px; padding: 10px 0 15px; color: var(--ink); border-radius: 0; outline: none; transition: border-color .2s; }
 .short-answer textarea:focus { border-color: var(--orange); }
 .short-answer textarea::placeholder { color: #aaa69b; }
 .answer-meta { display: flex; justify-content: space-between; gap: 15px; color: #77746a; font-size: 13px; line-height: 1.5; margin-top: 12px; }
+.answer-count { margin-left: auto; }
 .choice-list { display: grid; gap: 9px; }
 .choice { display: flex; align-items: center; text-align: left; gap: 17px; border: 1px solid #c9c5b9; border-radius: 3px; padding: 17px 19px; background: #ffffff30; color: var(--ink); font-size: 20px; letter-spacing: -.3px; min-height: 59px; transition: background .2s var(--ease), border-color .2s var(--ease); }
 .choice:hover { border-color: var(--ink); background: #fffaf0; }
@@ -243,7 +243,7 @@ h1 { margin: 0; font-weight: 400; }
  .enquiry-header { height: 88px; }.return-link { font-size: 14px; gap: 6px; }.enquiry-main { grid-template-columns: 1fr; gap: 42px; padding-top: 13px; padding-bottom: 56px; }
  .enquiry-aside { position: static; padding-top: 0; }.enquiry-aside .eyebrow { font-size: 9px; }.enquiry-aside h1 { font-size: 36px; letter-spacing: -1.6px; margin: 18px 0 0; }.enquiry-aside h1 br { display: none; }.enquiry-aside h1 span { font-size: 29px; margin-top: 1px; }
  .enquiry-aside p, .aside-note { display: none; }.enquiry-doodle { position: absolute; width: 65px; right: 29px; top: 132px; margin: 0; }
- .step-progress { margin-bottom: 28px; }.step-form h2 { font-size: 33px; letter-spacing: -1.5px; }.question-note { font-size: 16px; margin-top: 14px; margin-bottom: 22px; }
+ .step-progress { margin-bottom: 28px; }.step-form h2 { font-size: 33px; letter-spacing: -1.5px; margin-bottom: 22px; }
  .short-answer textarea { font-size: 22px; min-height: 130px; }.answer-meta { font-size: 13px; }.choice { padding: 15px; font-size: 18px; }.revenue-choices .choice { font-size: 16px; padding: 14px 11px; }
  .help-choices { gap: 9px; }.help-choice { font-size: 19px; padding: 12px 17px; gap: 18px; }.contact-grid { grid-template-columns: 1fr; gap: 19px; }
  .step-actions { margin-top: 29px; }.form-next { font-size: 15px; padding-inline: 22px; }.enquiry-summary summary span { font-size: 13px; }.enquiry-summary dl { grid-template-columns: 85px 1fr; font-size: 14px; }

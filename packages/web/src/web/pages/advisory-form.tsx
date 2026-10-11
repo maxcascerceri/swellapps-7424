@@ -9,7 +9,6 @@ import { softEase } from '../components/site-motion';
 
 type Draft = Omit<AdvisoryInput, 'stage' | 'revenue'> & { stage: AdvisoryInput['stage'] | ''; revenue: AdvisoryInput['revenue'] | '' };
 const titles = ['What are you building?', 'Where are you today?', 'What’s your current monthly revenue?', 'Where do you want help?', 'What’s the main thing you’re trying to solve?', 'About you'];
-const notes = ['One sentence is plenty.', 'Pick the stage that feels closest.', 'A rough range is all we need. In USD.', 'Select all that apply. We’ll start there.', 'Give us the short version.', 'And finally, who’s behind the project?'];
 const labels = ['The idea', 'Your stage', 'Revenue', 'Your focus', 'The challenge', 'About you'];
 const emptyDraft = (): Draft => ({ submissionId: crypto.randomUUID(), building: '', stage: '', revenue: '', areas: [], challenge: '', name: '', email: '', company: '', website: '', companyFax: '' });
 
@@ -103,11 +102,10 @@ export default function AdvisoryForm() {
             <Link href="/" className="book-button">Back to Swell <ArrowUpRight size={19} aria-hidden="true" /></Link>
           </motion.section> : <motion.form key={step} onSubmit={send} noValidate className="step-form" initial={reduced ? false : { opacity: 0, x: direction * 12 }} animate={{ opacity: 1, x: 0 }} exit={reduced ? undefined : { opacity: 0, x: direction * -10 }} transition={{ duration: .18, ease: softEase }}>
             <h2 ref={headingRef} tabIndex={-1} id="question-title">{titles[step]}</h2>
-            <p className="question-note" id="question-note">{notes[step]}</p>
             {step === 0 && <div className="short-answer">
               <label className="sr-only" htmlFor="building">What are you building?</label>
-              <textarea aria-labelledby="question-title" id="building" name="building" rows={3} maxLength={250} value={draft.building} placeholder="A mobile app that helps runners train for their first marathon." onChange={event => update('building', event.target.value.replace(/\n/g, ' '))} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); advance(); } }} aria-describedby={errors.building ? 'building-error' : 'question-note'} aria-invalid={!!errors.building} aria-required="true" />
-              <div className="answer-meta"><span>Just the idea. Not the pitch.</span><span>{draft.building.length}/250</span></div>
+              <textarea aria-labelledby="question-title" id="building" name="building" rows={3} maxLength={250} value={draft.building} placeholder="A mobile app that helps runners train for their first marathon." onChange={event => update('building', event.target.value.replace(/\n/g, ' '))} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); advance(); } }} aria-describedby={errors.building ? 'building-error' : undefined} aria-invalid={!!errors.building} aria-required="true" />
+              <div className="answer-meta"><span className="answer-count">{draft.building.length}/250</span></div>
               {errors.building && <p className="field-error" id="building-error" role="alert">{errors.building}</p>}
             </div>}
             {step === 1 && <fieldset className="choice-list stage-choices" aria-labelledby="question-title">
@@ -122,8 +120,8 @@ export default function AdvisoryForm() {
             </>}
             {step === 4 && <div className="short-answer">
               <label className="sr-only" htmlFor="challenge">What’s the main thing you’re trying to solve?</label>
-              <textarea aria-labelledby="question-title" id="challenge" name="challenge" rows={3} maxLength={200} value={draft.challenge} placeholder="We have happy users, but we haven’t found a repeatable way to reach more of them." onChange={event => update('challenge', event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); advance(); } }} aria-describedby={errors.challenge ? 'challenge-error' : 'question-note'} aria-invalid={!!errors.challenge} aria-required="true" />
-              <div className="answer-meta"><span>No essay needed.</span><span>{draft.challenge.length}/200</span></div>
+              <textarea aria-labelledby="question-title" id="challenge" name="challenge" rows={3} maxLength={200} value={draft.challenge} placeholder="We have happy users, but we haven’t found a repeatable way to reach more of them." onChange={event => update('challenge', event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); advance(); } }} aria-describedby={errors.challenge ? 'challenge-error' : undefined} aria-invalid={!!errors.challenge} aria-required="true" />
+              <div className="answer-meta"><span className="answer-count">{draft.challenge.length}/200</span></div>
               {errors.challenge && <p className="field-error" id="challenge-error" role="alert">{errors.challenge}</p>}
             </div>}
             {step === 5 && <>
