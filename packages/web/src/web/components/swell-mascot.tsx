@@ -14,9 +14,9 @@ import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/reac
  * prefers-reduced-motion leaves every layer in its original resting place.
  */
 
-const EYE_TRAVEL = 8;
-const EYE_REACH = 200;
-const EYE_SPRING = { stiffness: 120, damping: 11, mass: 0.32 };
+const EYE_TRAVEL = 3.6;
+const EYE_REACH = 420;
+const EYE_SPRING = { stiffness: 86, damping: 16, mass: 0.42 };
 
 const STEAM: Array<{ src: string; rise: string; sway: string; duration: string; delay: string }> = [
   { src: "/images/mascot/steam-1.png", rise: "-18px", sway: "5px", duration: "5.2s", delay: "0s" },
