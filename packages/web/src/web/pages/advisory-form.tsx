@@ -24,7 +24,7 @@ export default function AdvisoryForm() {
   const submit = useAdvisorySubmit();
   useEffect(() => {
     const previous = document.title;
-    document.title = 'Work with us — Swell Apps';
+    document.title = 'Get in Touch — Swell Apps';
     return () => { document.title = previous; };
   }, []);
   useEffect(() => { headingRef.current?.focus({ preventScroll: true }); }, [step, received]);
@@ -144,6 +144,6 @@ export default function AdvisoryForm() {
         </AnimatePresence>
       </div>
     </main>
-    <footer className="enquiry-footer content-width"><span>Swell Apps © 2026</span><span>Thoughtful products. Thoughtful conversations.</span></footer>
+    <footer className="enquiry-footer content-width"><span>Swell Apps © 2026</span><span className="footer-sign">Made by <span className="footer-max">Max</span><span aria-hidden="true">·</span><a className="footer-mail" href="mailto:max@swellapps.co">max@swellapps.co</a></span></footer>
   </div>;
 }

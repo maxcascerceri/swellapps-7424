@@ -28,7 +28,7 @@ export function BookingCTA({ className = '', textLink = false }: { className?: s
     }}
     onPointerLeave={() => { ref.current?.style.setProperty('--magnet-x', '0px'); ref.current?.style.setProperty('--magnet-y', '0px'); }}
     whileTap={reduced ? undefined : { scale: .98 }} transition={{ duration: .2, ease: softEase }}>
-    <span>Work with us</span><ArrowUpRight size={textLink ? 34 : 19} strokeWidth={1.7} aria-hidden="true" />
+    <span>Get in Touch</span><ArrowUpRight size={textLink ? 34 : 19} strokeWidth={1.7} aria-hidden="true" />
     {textLink && <svg className="text-cta-line" viewBox="0 0 270 13" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10Q113 1 268 5" /></svg>}
   </motion.button>;
 }

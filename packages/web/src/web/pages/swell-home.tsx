@@ -108,7 +108,7 @@ export default function SwellHome() {
       <DrawRule />
       <div className="footer-inner content-width">
         <Reveal><p>Swell Apps © 2026</p></Reveal>
-        <Reveal delay={.12}><p>Made by <span className="footer-max">Max</span></p></Reveal>
+        <Reveal delay={.12}><p className="footer-sign">Made by <span className="footer-max">Max</span><span aria-hidden="true">·</span><a className="footer-mail" href="mailto:max@swellapps.co">max@swellapps.co</a></p></Reveal>
       </div>
     </footer>
   </div>;
