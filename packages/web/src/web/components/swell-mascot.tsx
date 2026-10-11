@@ -93,6 +93,10 @@ export function SwellMascot() {
         fetchPriority="high"
         draggable={false}
       />
+      <span className="mascot-bulb-hit" aria-hidden="true">
+        <span className="mascot-bulb-glow" />
+        <span className="mascot-bulb-fill" />
+      </span>
       {STEAM.map((stroke) => (
         <img
           key={stroke.src}
