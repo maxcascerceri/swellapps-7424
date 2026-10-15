@@ -16,8 +16,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outlin
 .content-width { width: 84%; max-width: 1280px; margin-inline: auto; }
 .site-header { height: 122px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
 .wordmark { display: inline-flex; align-items: baseline; font-size: 34px; letter-spacing: -1.8px; gap: 5px; }
-.wordmark strong { font-weight: 800; }
-.wordmark span { font-weight: 400; }
+.wordmark-svg { display: block; overflow: visible; }
 .book-button { background: var(--ink); border: 1px solid var(--ink); color: #fff; border-radius: 100px; min-height: 51px; padding: 12px 31px; display: inline-flex; gap: 11px; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; line-height: 1.15; translate: var(--magnet-x, 0px) var(--magnet-y, 0px); transition: background .25s var(--ease), border-color .25s var(--ease), translate .25s var(--ease), scale .25s var(--ease); }
 .book-button:hover { background: var(--orange); border-color: var(--orange); translate: var(--magnet-x, 0px) calc(var(--magnet-y, 0px) - 2px); scale: 1.015; }
 .book-button svg { transition: transform .25s var(--ease); }
@@ -32,8 +31,8 @@ h1 { margin: 0; font-weight: 400; }
 .script-line { display: inline-block; position: relative; margin-top: -3px; }
 .swell-script { font-family: 'Leckerli One', cursive; font-size: clamp(66px,8.2vw,118px); line-height: 1.2; letter-spacing: -4px; color: var(--orange); display: block; white-space: nowrap; transform: rotate(-2deg); padding: 0 10px 6px 5px; }
 .ink-rays { position: absolute; width: 41px; height: 50px; }
-.script-rays-left { color: var(--orange); left: -37px; top: 12px; transform: rotate(182deg); }
-.script-rays-right { color: var(--orange); right: -35px; top: 2px; transform: rotate(-8deg); }
+.script-rays-left { color: var(--orange); left: -37px; top: 12px; rotate: 182deg; }
+.script-rays-right { color: var(--orange); right: -35px; top: 2px; rotate: -8deg; }
 .hero-description { margin: 30px 0 29px; font-size: 25px; line-height: 1.36; letter-spacing: -.6px; }
 .hero-action { position: relative; display: inline-flex; }
 .hero-action .book-button { min-width: 219px; }
@@ -43,11 +42,13 @@ h1 { margin: 0; font-weight: 400; }
 .mascot { position: relative; line-height: 0; pointer-events: none; }
 .mascot-base { width: 100%; height: auto; display: block; }
 .mascot-layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; pointer-events: none; user-select: none; }
-.mascot-steam { animation: mascot-steam var(--steam-duration, 5.4s) linear infinite; animation-delay: var(--steam-delay, 0s); }
-.mascot-eye { width: 100%; height: 100%; display: block; object-fit: fill; animation: mascot-blink 4.6s linear infinite; }
+.mascot-steam { animation: mascot-steam var(--steam-duration, 5.4s) linear infinite backwards; animation-delay: var(--steam-delay, 0s); }
+.mascot-eye { width: 100%; height: 100%; display: block; object-fit: fill; animation: mascot-blink 4.6s linear infinite; animation-delay: var(--blink-delay, 0s); }
 .mascot-eye-left { transform-origin: 52.73% 32.67%; }
-.mascot-eye-right { transform-origin: 58.5% 34%; animation-delay: .05s; }
+.mascot-eye-right { transform-origin: 58.5% 34%; animation-delay: calc(var(--blink-delay, 0s) + .05s); }
 .mascot.is-paused .mascot-steam, .mascot.is-paused .mascot-eye { animation-play-state: paused; }
+.mascot.is-asleep .mascot-steam { animation: none; opacity: 0; }
+.mascot.is-asleep .mascot-eye { animation: none; }
 @keyframes mascot-steam {
   0% { transform: translate3d(0, 6px, 0); opacity: 0; }
   16% { opacity: 1; }

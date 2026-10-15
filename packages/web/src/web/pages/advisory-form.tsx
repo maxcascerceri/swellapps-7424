@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Check, LoaderCircle } from 'lucide
 import { advisorySchema, stages, revenues, helpAreas, type AdvisoryInput } from '../../shared/advisory';
 import { useAdvisorySubmit } from '../queries/advisory';
 import { SectionDoodle } from '../components/section-doodle';
-import { softEase } from '../components/site-motion';
+import { Wordmark, softEase } from '../components/site-motion';
 
 type Draft = Omit<AdvisoryInput, 'stage' | 'revenue'> & { stage: AdvisoryInput['stage'] | ''; revenue: AdvisoryInput['revenue'] | '' };
 const titles = ['What are you building?', 'Where are you today?', 'What’s your current monthly revenue?', 'Where do you want help?', 'What’s the main thing you’re trying to solve?', 'About you'];
@@ -73,7 +73,7 @@ export default function AdvisoryForm() {
 
   return <div className="enquiry-page">
     <header className="enquiry-header content-width">
-      <Link href="/" className="wordmark" aria-label="Swell Apps home"><strong>Swell</strong><span>Apps</span></Link>
+      <Link href="/" className="wordmark" aria-label="Swell Apps home"><Wordmark /></Link>
       <Link href="/" className="return-link"><ArrowLeft size={15} aria-hidden="true" /><span>Back to Swell</span></Link>
     </header>
     <main className="enquiry-main content-width">

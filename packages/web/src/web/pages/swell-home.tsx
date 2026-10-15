@@ -1,16 +1,34 @@
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import { SectionDoodle } from '../components/section-doodle';
-import { BookingCTA, DrawRule, Reveal, softEase } from '../components/site-motion';
+import { BookingCTA, DrawRule, InkWipe, Reveal, Wordmark, inkEase, softEase, useOpeningSequence } from '../components/site-motion';
 import { SwellMascot } from '../components/swell-mascot';
 
-function InkRays({ className = '' }: { className?: string }) {
-  return <svg className={`ink-rays ${className}`} viewBox="0 0 50 60" fill="none" aria-hidden="true"><path d="M10 19 22 4M18 31l22-5M17 44l16 10" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" /></svg>;
+function InkRays({ className = '', play = false, delay = 0 }: { className?: string; play?: boolean; delay?: number }) {
+  return <motion.svg className={`ink-rays ${className}`} viewBox="0 0 50 60" fill="none" aria-hidden="true"
+    initial={play ? { opacity: 0, scale: .25, filter: 'blur(4px)' } : false} animate={play ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : undefined} transition={{ type: 'spring', duration: .45, bounce: .25, delay }}>
+    <path d="M10 19 22 4M18 31l22-5M17 44l16 10" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+  </motion.svg>;
 }
+
+/**
+ * Opening beats in seconds. The page is inked in: wordmark pen-draws (0 to
+ * ~.5), the three headline lines wipe in, the mascot sweeps in diagonally,
+ * then the drawing wakes up (steam, a blink, eyes) while the sweep is still
+ * settling and the rays spring on, so the motion trails off rather than stops.
+ */
+const BEATS = { building: .15, collection: .26, script: .38, underline: .36, description: .52, cta: .58, mascot: .35, mascotSweep: .6, awake: .8, rays: .76 };
 
 export default function SwellHome() {
   const reduced = useReducedMotion();
+  const play = useOpeningSequence();
+  const [awake, setAwake] = useState(!play);
   const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    if (!play) return;
+    const timer = setTimeout(() => setAwake(true), BEATS.awake * 1000);
+    return () => clearTimeout(timer);
+  }, [play]);
   const workRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: workRef, offset: ['start end', 'end start'] });
   const doodleY = useTransform(scrollYProgress, [0, 1], [10, -10]);
@@ -40,12 +58,12 @@ export default function SwellHome() {
     };
     requestAnimationFrame(frame);
   };
-  const entrance = (delay: number) => ({ initial: reduced ? false as const : { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: .55, delay: reduced ? 0 : delay, ease: softEase } });
+  const fade = (delay: number) => play ? { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: .45, delay, ease: inkEase } } : { initial: false as const };
 
   return <div className="landing" id="top">
     <header className={`header-shell ${compact ? 'is-compact' : ''}`}>
       <div className="site-header content-width">
-        <a className="wordmark" href="#top" onClick={event => anchor(event, 'top')} aria-label="Swell Apps home"><strong>Swell</strong><span>Apps</span></a>
+        <a className="wordmark" href="#top" onClick={event => anchor(event, 'top')} aria-label="Swell Apps home"><Wordmark play={play} /></a>
         <nav className="site-nav" aria-label="Main navigation">
           <a className="nav-link" href="#about" onClick={event => anchor(event, 'about')}>About</a>
           <BookingCTA className="header-book" />
@@ -56,16 +74,16 @@ export default function SwellHome() {
       <section className="hero content-width" aria-labelledby="hero-title">
         <div className="hero-copy">
           <h1 id="hero-title">
-            <motion.span className="building" {...entrance(.03)}>Building<svg className="underline" viewBox="0 0 370 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><motion.path d="M3 16C112-2 235 1 366 7" stroke="currentColor" strokeWidth="4.6" strokeLinecap="round" initial={reduced ? false : { pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: .5, delay: .36, ease: softEase }} /></svg></motion.span>{' '}
-            <motion.span className="collection" {...entrance(.12)}>a collection of</motion.span>{' '}
-            <motion.span className="script-line" {...entrance(.25)}><InkRays className="script-rays-left" /><span className="swell-script">swell apps.</span><InkRays className="script-rays-right" /></motion.span>
+            <InkWipe as="span" className="building" play={play} delay={BEATS.building} duration={.4}>Building<svg className="underline" viewBox="0 0 370 20" preserveAspectRatio="none" fill="none" aria-hidden="true"><motion.path d="M3 16C112-2 235 1 366 7" stroke="currentColor" strokeWidth="4.6" strokeLinecap="round" initial={play ? { pathLength: 0, opacity: 0 } : false} animate={{ pathLength: 1, opacity: 1 }} transition={{ pathLength: { duration: .5, delay: BEATS.underline, ease: softEase }, opacity: { duration: .01, delay: BEATS.underline } }} /></svg></InkWipe>{' '}
+            <InkWipe as="span" className="collection" play={play} delay={BEATS.collection} duration={.42}>a collection of</InkWipe>{' '}
+            <InkWipe as="span" className="script-line" play={play} delay={BEATS.script} duration={.45}><InkRays className="script-rays-left" play={play} delay={BEATS.rays} /><span className="swell-script">swell apps.</span><InkRays className="script-rays-right" play={play} delay={BEATS.rays + .06} /></InkWipe>
           </h1>
-          <motion.p className="hero-description" {...entrance(.34)}>Thoughtful products for the internet.</motion.p>
-          <motion.div className="hero-action" {...entrance(.4)}><BookingCTA /><InkRays className="button-rays" /></motion.div>
+          <motion.p className="hero-description" {...fade(BEATS.description)}>Thoughtful products for the internet.</motion.p>
+          <motion.div className="hero-action" {...fade(BEATS.cta)}><BookingCTA /><InkRays className="button-rays" play={play} delay={BEATS.rays + .12} /></motion.div>
         </div>
-        <motion.div className="hero-art" initial={reduced ? false : { opacity: 0, y: 15, scale: .98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: .65, delay: .2, ease: softEase }}>
-          <SwellMascot />
-        </motion.div>
+        <InkWipe className="hero-art" direction="diagonal" play={play} delay={BEATS.mascot} duration={BEATS.mascotSweep}>
+          <SwellMascot asleep={!awake} staged={play} />
+        </InkWipe>
       </section>
       <section className="practice-strip" aria-label="Build, operate, advise">
         <DrawRule />

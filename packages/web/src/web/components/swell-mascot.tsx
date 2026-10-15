@@ -12,6 +12,11 @@ import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/reac
  * Steam: CSS only. Each stroke rises, sways, and fades. Tune those.
  * The body stays still so the eyes and steam read against the drawing.
  * prefers-reduced-motion leaves every layer in its original resting place.
+ *
+ * `asleep` holds the steam and eyes still (used while the opening sequence
+ * inks the drawing in); `staged` makes waking up read as a beat: the steam
+ * strokes start one after another from nothing instead of mid-cycle, and the
+ * blink cycle is wound forward so the first blink lands right after waking.
  */
 
 const EYE_TRAVEL = 3.6;
@@ -25,9 +30,13 @@ const STEAM: Array<{ src: string; rise: string; sway: string; duration: string; 
   { src: "/images/mascot/steam-4.png", rise: "-19px", sway: "-5px", duration: "4.8s", delay: "-4.2s" },
 ];
 
-export function SwellMascot() {
+const STAGED_DELAYS = ["0s", ".45s", ".9s", "1.35s"];
+// The blink keyframe sits at 96% of a 4.6s cycle; this puts it ~120ms after waking.
+const STAGED_BLINK_DELAY = "-4.3s";
+
+export function SwellMascot({ asleep = false, staged = false }: { asleep?: boolean; staged?: boolean }) {
   const reduced = useReducedMotion();
-  const animate = reduced === false;
+  const animate = reduced === false && !asleep;
   const rootRef = useRef<HTMLDivElement>(null);
   const eyeX = useMotionValue(0);
   const eyeY = useMotionValue(0);
@@ -83,7 +92,7 @@ export function SwellMascot() {
   const eyes = animate ? { x: eyeSpringX, y: eyeSpringY } : undefined;
 
   return (
-    <div className="founder-art mascot" ref={rootRef}>
+    <div className={`founder-art mascot ${asleep ? "is-asleep" : ""}`} ref={rootRef} style={staged ? ({ "--blink-delay": STAGED_BLINK_DELAY } as CSSProperties) : undefined}>
       <img
         className="mascot-base"
         src="/images/mascot/base.png"
@@ -93,7 +102,7 @@ export function SwellMascot() {
         fetchPriority="high"
         draggable={false}
       />
-      {STEAM.map((stroke) => (
+      {STEAM.map((stroke, index) => (
         <img
           key={stroke.src}
           className="mascot-layer mascot-steam"
@@ -106,7 +115,7 @@ export function SwellMascot() {
               "--rise": stroke.rise,
               "--sway": stroke.sway,
               "--steam-duration": stroke.duration,
-              "--steam-delay": stroke.delay,
+              "--steam-delay": staged ? STAGED_DELAYS[index] : stroke.delay,
             } as CSSProperties
           }
         />
